@@ -16,9 +16,15 @@ export default {
         }
     },
     data () {
-        return {
-            imgPath: $.apiPath + 'img?img='+this.data.images[0]
+        try{
+            return {
+                imgPath: $.apiPath + 'img?img='+this.data.images[0]
+            }
         }
+        catch(e){
+            return {imgPath:null}
+        }
+
     },
     mounted (){
         console.log(this.imgPath)
