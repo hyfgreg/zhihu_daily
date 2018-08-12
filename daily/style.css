@@ -23,7 +23,7 @@ body {
     list-style-type: none;
 }
 
-.daily-menu ul li a{
+.daily-menu ul li a {
     display: block;
     color: inherit;
     text-decoration: none;
@@ -32,7 +32,8 @@ body {
     cursor: pointer;
 }
 
-.daily-menu u li a:hover, .daily-menu ul li a.on{
+.daily-menu u li a:hover,
+.daily-menu ul li a.on {
     color: #3399ff
 }
 
@@ -54,7 +55,7 @@ body {
     border-right: 2px solid #3399ff
 }
 
-.daily-list{
+.daily-list {
     width: 300px;
     position: fixed;
     top: 0;
@@ -64,7 +65,7 @@ body {
     border-right: 1px solid #d7dde4;
 }
 
-.daily-item{
+.daily-item {
     display: block;
     color: inherit;
     text-decoration: none;
@@ -74,7 +75,7 @@ body {
     transition: all .3s ease-in-out
 }
 
-.daily-item:hover{
+.daily-item:hover {
     background: #e4e8ee;
 }
 
@@ -89,7 +90,7 @@ body {
     float: left;
 }
 
-.daily-img img{
+.daily-img img {
     width: 100%;
     height: 100%;
     border-radius: 3px;
@@ -99,11 +100,29 @@ body {
     padding: 10px 5px 10px 90px
 }
 
-.daily-title.noImg{
+.daily-title.noImg {
     padding-left: 5px
 }
 
-.daily-article{
+.daily-article {
     margin-left: 450px;
     padding: 20px;
+}
+
+.daily-article-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #222222;
+    padding: 20px;
+}
+
+.view-more a {
+    cursor: pointer;
+    color: inherit;
+    background: #f5f7f9;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    padding: 4px 0;
+    border-radius: 3px;
 }

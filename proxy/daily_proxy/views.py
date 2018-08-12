@@ -4,15 +4,16 @@ import requests
 from django.conf import settings
 # from rest_framework.response import Response
 from django.http.response import JsonResponse, HttpResponse
-
-from common_rest.views import CustomizedAPIView, expose
+from django.views import generic
+from rest_framework.views import APIView
+# from common_rest.views import CustomizedAPIView, expose
 
 
 # Create your views here.
 
-class Proxy(CustomizedAPIView):
-    def get(self, request):
-        param = request.parser_context['kwargs']['param']
+class API_Proxy(APIView):
+    def get(self, request,param):
+        # param = request.parser_context['kwargs']['param']
         url = '{}{}'.format(settings.API_PATH, param)
         resp = requests.get(url, headers=settings.HEADERS)
         if resp.status_code // 100 == 2:
@@ -21,7 +22,8 @@ class Proxy(CustomizedAPIView):
             return JsonResponse(status=404, data={'result': None})
 
 
-class IMG_Proxy(CustomizedAPIView):
+
+class IMG_Proxy(APIView):
     def get(self, request):
         try:
             img = request.query_params['img']

@@ -1,5 +1,5 @@
 <template>
-    <a class="daily-item">
+    <a class="daily-item" @click="handleClick">
         <div class="daily-img" v-if="data.images">
             <img :src="imgPath">
         </div>
@@ -15,6 +15,11 @@ export default {
             type: Object
         }
     },
+    methods:{
+        handleClick(){
+            this.$emit('itemClick',this.data.id);
+        }
+    },
     data () {
         try{
             return {
@@ -26,9 +31,9 @@ export default {
         }
 
     },
-    mounted (){
-        console.log(this.imgPath)
-    }
+    // mounted (){
+    //     console.log(this.imgPath)
+    // }
 }
 </script>
 

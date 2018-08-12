@@ -10,27 +10,28 @@
                 </li>
             </ul>
         </div>
-        <div class="daily-list">
-            <template v-if="type === 'recommend'">
+        <div class="daily-list" ref="list">
+            <template v-if="type === 'recommend'" >
                 <div v-for="list in recommendList">
                     <div class="daily-date">{{ formatDay(list.date) }}</div>
-                    <Item v-for="item in list.stories" :data="item"></Item>
+                    <Item v-for="item in list.stories" :data="item" @itemClick="handleItemClick"></Item>
                 </div>
             </template>
-            <template v-if="type==='daily'">
-                <Item v-for="item in list" :data="item" :key="item.id"></Item>
+            <template v-if="type==='daily'" >
+                <Item v-for="item in list" :data="item" :key="item.id" @itemClick="handleItemClick"></Item>
             </template>
         </div>
-        <!-- <daily-article></daily-article> -->
+        <dailyArticle :articleId="articleId"></dailyArticle>
     </div>
 </template>
 
 <script>
-import $ from './libs/util.js'
-import axios from 'axios'
-import Item from './components/item.vue'
+import $ from './libs/util.js';
+import axios from 'axios';
+import Item from './components/item.vue';
+import dailyArticle from './components/article.vue';
 export default {
-    components:{Item},
+    components:{Item, dailyArticle},
     data () {
         return {
             themes: [],
@@ -40,7 +41,8 @@ export default {
             recommendList:[],
             themeId: 0,
             dailyTime: $.getTodayTime(),
-            isLoading: false
+            isLoading: false,
+            articleId:0
         }
     },
     methods:{
@@ -75,6 +77,9 @@ export default {
             $.ajax.get('news/before/'+prevDay).then(res=>{
                 this.recommendList.push(res);
                 this.isLoading=false;
+                if (this.list.length === 0){
+                    this.articleId = res.stories[0].id;
+                }
             })
         },
         formatDay(date){
@@ -83,10 +88,21 @@ export default {
             if (month.substr(0,1) ==='0') month = month.substr(1,1);
             if (day.substr(0,1) ==='0') day =day.substr(1,1);
             return month+'月'+day+'日';
+        },
+        handleItemClick(id){
+            this.articleId = id;
         }
     },
     mounted(){
         this.handleToRecommend();
+        const $list = this.$refs.list;
+        $list.addEventListener('scroll',()=>{
+            if (this.type === 'daily' || this.isLoading) return;
+            if ($list.scrollTop + document.body.clientHeight >= $list.scrollHeight){
+                this.dailyTime -= 86400000;
+                this.getRecommendList()
+            }
+        })
         this.getThemes();
     }
 }
